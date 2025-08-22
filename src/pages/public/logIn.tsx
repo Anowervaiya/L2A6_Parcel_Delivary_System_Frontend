@@ -1,9 +1,12 @@
-import { cn } from '@/lib/utils';
-import { Card, CardContent } from '@/components/ui/card';
-import SignUpForm from '@/components/modules/public/SignUpForm';
+import { cn } from "@/lib/utils"
+import { Card, CardContent } from "@/components/ui/card"
+import LoginForm from "@/components/modules/public/LoginForm";
 
-export function SignUp({ className, ...props }: React.ComponentProps<'div'>) {
 
+export function Login({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
 
 
   return (
@@ -12,6 +15,11 @@ export function SignUp({ className, ...props }: React.ComponentProps<'div'>) {
         <div className={cn('flex flex-col gap-6', className)} {...props}>
           <Card className="overflow-hidden p-0">
             <CardContent className="grid p-0 md:grid-cols-2">
+
+              
+              <LoginForm />
+              
+
               <div className="bg-muted relative hidden md:block">
                 <img
                   src="src/assets/images/login.jpg"
@@ -19,9 +27,6 @@ export function SignUp({ className, ...props }: React.ComponentProps<'div'>) {
                   className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />
               </div>
-
-              <SignUpForm/>
-             
             </CardContent>
           </Card>
           <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">

@@ -1,6 +1,8 @@
 
+
 import CommonLayout from "@/components/layout/CommonLayout";
-import { LoginForm } from "@/pages/public/loginForm";
+import { Login } from "@/pages/public/logIn";
+
 import { SignUp } from "@/pages/public/signUp";
 import { createBrowserRouter } from "react-router";
 
@@ -18,7 +20,7 @@ export const router = createBrowserRouter([
 
   },
   {
-    Component: LoginForm,
+    Component: Login,
     path: '/login'
   },
   
