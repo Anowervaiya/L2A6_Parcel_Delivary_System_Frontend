@@ -12,21 +12,39 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import InfoMenu from "../info-menu"
-import NotificationMenu from "../notification-menu"
+
 import UserMenu from "../user-menu"
 import Logo from "../logo"
 import { Link } from "react-router"
+import { role } from "@/constants/role"
+import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api"
+import React from "react"
+import { useAppDispatch } from "@/redux/hooks"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { href: "#", label: "Home" },
-  { href: "#", label: "Features" },
-  { href: "#", label: "Pricing" },
-  { href: "#", label: "About" },
-]
+  { href: '/', label: 'Home', role: 'PUBLIC' },
+  { href: '/about', label: 'About', role: 'PUBLIC' },
+  { href: '/admin', label: 'Dashboard', role:  role.ADMIN },
+  { href: '/sender', label: 'Dashboard', role: role.SENDER },
+  { href: '/receiver', label: 'Dashboard', role: role.RECEIVER },
+];
 
 export default function Navbar() {
+  const { data } = useUserInfoQuery(undefined)
+  const dispatch = useAppDispatch()
+
+  const [logout] = useLogoutMutation()
+
+  const handleLogout = async () => {
+    
+    await logout(undefined)
+    dispatch(authApi.util.resetApiState())
+    
+    
+  }
+
+
   return (
     <header className="border-b px-4 md:px-6 ">
       <div className="container mx-auto">
@@ -91,14 +109,18 @@ export default function Navbar() {
               <NavigationMenu className="max-md:hidden">
                 <NavigationMenuList className="gap-2">
                   {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index}>
-                      <NavigationMenuLink
-                        href={link.href}
-                        className="text-muted-foreground hover:text-primary py-1.5 font-medium"
-                      >
-                        {link.label}
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
+                    <React.Fragment key={index}>
+                      {link.role === 'PUBLIC' && (
+                        <NavigationMenuItem>
+                          <NavigationMenuLink
+                            asChild
+                            className="text-muted-foreground hover:text-primary py-1.5 font-medium"
+                          >
+                            <Link to={link.href}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        </NavigationMenuItem>
+                      )}
+                    </React.Fragment>
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
@@ -106,17 +128,19 @@ export default function Navbar() {
           </div>
           {/* Right side */}
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              {/* Info menu */}
-              <InfoMenu />
-              {/* Notification */}
-              <NotificationMenu />
-            </div>
             {/* User menu */}
-            <Button variant={'ghost'}  >
-              <Link to={'/login'}>Login</Link>
-            </Button>
-            <UserMenu />
+
+            {data?.data?.email ? (
+              <UserMenu
+                navigationLinks={navigationLinks}
+                handleLogout={handleLogout}
+                data={data?.data}
+              />
+            ) : (
+              <Button variant={'ghost'}>
+                <Link to={'/login'}>Login</Link>
+              </Button>
+            )}
           </div>
         </div>
       </div>
