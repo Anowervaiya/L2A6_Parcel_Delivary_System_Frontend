@@ -20,7 +20,7 @@ import config from '@/config/config';
     //! For development only
     defaultValues: {
       email: "mdanowerhossen727@gmail.com",
-      password: "An@123456789",
+      password: "@An123456789",
     },
   });
 
