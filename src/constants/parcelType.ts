@@ -25,3 +25,11 @@ export const statusColors: any = {
   IN_TRANSIT: 'text-purple-500',
   DELIVERED: 'text-green-500',
 };
+export const ParcelStatus = {
+  REQUESTED: 'REQUESTED',
+  APPROVED: 'APPROVED',
+  DISPATCHED: 'DISPATCHED',
+  CANCELLED: 'CANCELLED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  DELIVERED: 'DELIVERED',
+};

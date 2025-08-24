@@ -7,10 +7,11 @@ export interface IParcelStatus {
   DELIVERED: 'DELIVERED';
 }
 
+
 export interface IParcelStatusLog {
   status: IParcelStatus;
   timestamp: Date;
-  updatedBy:string;
+  updatedBy: string;
   location?: string;
   note?: string;
 }

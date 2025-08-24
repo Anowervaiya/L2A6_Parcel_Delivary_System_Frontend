@@ -1,9 +1,7 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -14,21 +12,12 @@ import {
   useConfirmParcelMutation,
   useMyParcelQuery,
 } from '@/redux/features/parcel/parcel.api';
-import { Ellipsis, MoreHorizontal } from 'lucide-react';
-import { useState } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import {  MoreHorizontal } from 'lucide-react';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
@@ -74,146 +63,158 @@ export default function MyParcel() {
     <div className="container mx-auto">
       <div>
         <div>
-          <h1 className="font-bold text-2xl">Receiving parcel</h1>
+          <h1 className="font-bold text-2xl pb-4">Receiving parcel</h1>
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[150px]">Tracking ID</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Delivery Address</TableHead>
-              <TableHead>Delivery Date</TableHead>
-              <TableHead>Weight</TableHead>
-              <TableHead>Fee</TableHead>
-              <TableHead className="text-right">Confirm</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {receivedParcel.map((parcel: IParcel) => (
+        {receivedParcel.length > 0 ? (
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell className="font-medium">
-                  {parcel.trackingId}
-                </TableCell>
-                <TableCell>
-                  <span
-                    style={{
-                      color: parcel.currentStatus
-                        ? statusColors[parcel.currentStatus]
-                        : undefined,
-                    }}
-                    className={`
+                <TableHead className="w-[150px]">Tracking ID</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Delivery Address</TableHead>
+                <TableHead>Delivery Date</TableHead>
+                <TableHead>Weight</TableHead>
+                <TableHead>Fee</TableHead>
+                <TableHead className="text-right">Confirm</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {receivedParcel.map((parcel: IParcel) => (
+                <TableRow>
+                  <TableCell className="font-medium">
+                    {parcel.trackingId}
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      style={{
+                        color: parcel.currentStatus
+                          ? statusColors[parcel.currentStatus]
+                          : undefined,
+                      }}
+                      className={`
       ${parcel.currentStatus ? statusColors[parcel.currentStatus] : ''} 
       flex items-center space-x-2 
       font-semibold`}
-                  >
-                    <svg viewBox="0 0 8 8" className="w-2 h-2 fill-current">
-                      <circle cx="4" cy="4" r="4" />
-                    </svg>
-                    <span>{parcel.currentStatus}</span>
-                  </span>
-                </TableCell>
-                <TableCell>{parcel.deliveryAddress}</TableCell>
+                    >
+                      <svg viewBox="0 0 8 8" className="w-2 h-2 fill-current">
+                        <circle cx="4" cy="4" r="4" />
+                      </svg>
+                      <span>{parcel.currentStatus}</span>
+                    </span>
+                  </TableCell>
+                  <TableCell>{parcel.deliveryAddress}</TableCell>
 
-                <TableCell>
-                  {new Date(parcel.deliveryDate).toLocaleDateString()}
-                </TableCell>
+                  <TableCell>
+                    {new Date(parcel.deliveryDate).toLocaleDateString()}
+                  </TableCell>
 
-                <TableCell>{parcel.weight} kg</TableCell>
-                <TableCell>{parcel.fee}</TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      {/* <DropdownMenuSeparator /> */}
-                      <DropdownMenuItem
-                        onClick={() =>
-                          handleConfirmParcel(parcel?._id as string)
-                        }
-                      >
-                        Confirm{' '}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                  <TableCell>{parcel.weight} kg</TableCell>
+                  <TableCell>{parcel.fee}</TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <MoreHorizontal />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {/* <DropdownMenuSeparator /> */}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleConfirmParcel(parcel?._id as string)
+                          }
+                        >
+                          Confirm{' '}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <h1>You don't have any receiving parcel</h1>
+        )}
       </div>
 
-      <div>
+      <div className='pt-8'>
         <div>
           <h1 className="font-bold text-2xl">Sent parcel</h1>
         </div>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[150px]">Tracking ID</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Delivery Address</TableHead>
-              <TableHead>Delivery Date</TableHead>
-              <TableHead>Weight</TableHead>
-              <TableHead>Fee</TableHead>
-              <TableHead>Cancel</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sendedParcel.map((parcel: IParcel) => (
+        {sendedParcel.length > 0 ? (
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell className="font-medium">
-                  {parcel.trackingId}
-                </TableCell>
-                <TableCell>
-                  <span
-                    style={{
-                      color: parcel.currentStatus
-                        ? statusColors[parcel.currentStatus]
-                        : undefined,
-                    }}
-                    className={`
+                <TableHead className="w-[150px]">Tracking ID</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Delivery Address</TableHead>
+                <TableHead>Delivery Date</TableHead>
+                <TableHead>Weight</TableHead>
+                <TableHead>Fee</TableHead>
+                <TableHead>Cancel</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sendedParcel.map((parcel: IParcel) => (
+                <TableRow>
+                  <TableCell className="font-medium">
+                    {parcel.trackingId}
+                  </TableCell>
+                  <TableCell>
+                    <span
+                      style={{
+                        color: parcel.currentStatus
+                          ? statusColors[parcel.currentStatus]
+                          : undefined,
+                      }}
+                      className={`
       ${parcel.currentStatus ? statusColors[parcel.currentStatus] : ''} 
       flex items-center space-x-2 
       font-semibold`}
-                  >
-                    <svg viewBox="0 0 8 8" className="w-2 h-2 fill-current">
-                      <circle cx="4" cy="4" r="4" />
-                    </svg>
-                    <span>{parcel.currentStatus}</span>
-                  </span>
-                </TableCell>
-                <TableCell>{parcel.deliveryAddress}</TableCell>
+                    >
+                      <svg viewBox="0 0 8 8" className="w-2 h-2 fill-current">
+                        <circle cx="4" cy="4" r="4" />
+                      </svg>
+                      <span>{parcel.currentStatus}</span>
+                    </span>
+                  </TableCell>
+                  <TableCell>{parcel.deliveryAddress}</TableCell>
 
-                <TableCell>
-                  {new Date(parcel.deliveryDate).toLocaleDateString()}
-                </TableCell>
+                  <TableCell>
+                    {new Date(parcel.deliveryDate).toLocaleDateString()}
+                  </TableCell>
 
-                <TableCell>{parcel.weight} kg</TableCell>
-                <TableCell>{parcel.fee}</TableCell>
-                <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      {/* <DropdownMenuSeparator /> */}
-                      <DropdownMenuItem onClick={() => handleCancelParcel(parcel._id as string)}>
-                        Cancel{' '}
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                  <TableCell>{parcel.weight} kg</TableCell>
+                  <TableCell>{parcel.fee}</TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <MoreHorizontal />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {/* <DropdownMenuSeparator /> */}
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleCancelParcel(parcel._id as string)
+                          }
+                        >
+                          Cancel{' '}
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <h1>You don't have any sent parcel</h1>
+        )}
       </div>
     </div>
   );
