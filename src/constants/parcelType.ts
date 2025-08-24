@@ -1,3 +1,5 @@
+
+
 export const parcelTypes = [
   { label: 'Small Box', value: 'smallBox' },
   { label: 'Medium Box', value: 'mediumBox' },
@@ -14,3 +16,12 @@ export const parcelTypes = [
   { label: 'Irregular Shape', value: 'irregularShape' },
   { label: 'Document', value: 'document' },
 ];
+
+export const statusColors: any = {
+  REQUESTED: 'text-blue-500', // Using Tailwind CSS classes for example
+  APPROVED: 'text-yellow-500',
+  DISPATCHED: 'text-cyan-500',
+  CANCELLED: 'text-red-500',
+  IN_TRANSIT: 'text-purple-500',
+  DELIVERED: 'text-green-500',
+};

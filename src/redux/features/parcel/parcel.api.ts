@@ -9,21 +9,36 @@ export const parcelApi = baseApi.injectEndpoints({
         method: 'POST',
         data: parcelInfo,
       }),
-      
-
+    }),
+    confirmParcel: builder.mutation({
+      query: id => ({
+        url: `/parcel/confirm/${id}`,
+        method: 'PATCH'
+      }),
+      invalidatesTags: ['PARCEL']
+    }),
+    cancelParcel: builder.mutation({
+      query: id => ({
+        url: `/parcel/cancel/${id}`,
+        method: 'PATCH'
+      }),
+      invalidatesTags: ['PARCEL']
     }),
 
-    userInfo: builder.query({
+    myParcel: builder.query({
       query: () => ({
-        url: '/user/me',
+        url: '/parcel/my-parcel',
         method: 'GET',
       }),
-      providesTags: ['USER'],
+      providesTags: ['PARCEL'],
     }),
   }),
 });
 
 export const {
-  useAddParcelMutation
+  useAddParcelMutation,
+  useMyParcelQuery,
+  useConfirmParcelMutation,
+  useCancelParcelMutation
  
 } = parcelApi;

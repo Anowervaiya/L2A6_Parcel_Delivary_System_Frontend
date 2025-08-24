@@ -2,20 +2,21 @@
 // import Analytics from "@/pages/Admin/Analytics";
 
 import type { ISidebarItem } from '@/interfaces/global.interface';
-import AddParcel from '@/pages/admin/AddParcel';
-import { lazy } from 'react';
+import AddParcel from '@/pages/sender/AddParcel';
+import MyParcel from '@/pages/sender/MyParcel';
 
 
-const Analytics = lazy(() => import('@/pages/admin/Analytics'));
 
-export const adminSidebarItems: ISidebarItem[] = [
+
+
+export const senderSidebarItems: ISidebarItem[] = [
   {
     title: 'Dashboard',
     items: [
       {
-        title: 'Analytics',
-        url: '/admin/analytics',
-        component: Analytics,
+        title: 'My Parcel',
+        url: '/sender/my-parcel',
+        component: MyParcel,
       },
     ],
   },
@@ -24,7 +25,7 @@ export const adminSidebarItems: ISidebarItem[] = [
     items: [
       {
         title: 'Add Parcel',
-        url: '/admin/add-parcel',
+        url: '/sender/add-parcel',
         component: AddParcel,
       },
     ],

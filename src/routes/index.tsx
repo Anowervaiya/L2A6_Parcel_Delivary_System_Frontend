@@ -10,7 +10,7 @@ import Verify from '@/pages/public/verify';
 import { generateRoutes } from '@/utils/generateRoutes';
 import { withAuth } from '@/utils/withAuth';
 import { createBrowserRouter, Navigate } from 'react-router';
-import { adminSidebarItems } from './adminSidebarItems';
+import {  senderSidebarItems } from './senderSidebarItems';
 
 export const router = createBrowserRouter([
   {
@@ -37,14 +37,14 @@ export const router = createBrowserRouter([
     Component: Verify,
   },
   {
-    Component: withAuth(DashboardLayout, role.ADMIN as TRole),
-    path: '/admin',
+    Component: withAuth(DashboardLayout, role.SENDER as TRole),
+    path: '/sender',
     children: [
       {
         index: true,
-        element: <Navigate to="/admin/analytics" />
+        element: <Navigate to="/sender/my-parcel" />,
       },
-      ...generateRoutes(adminSidebarItems),
+      ...generateRoutes(senderSidebarItems),
     ],
   },
 ]);
