@@ -47,6 +47,16 @@ export const parcelApi = baseApi.injectEndpoints({
       }),
       providesTags: ['PARCEL'],
     }),
+
+    filterByStatus: builder.query({
+      query: payload => ({
+        url: `/parcel/filterByStatus`,
+        method: 'GET',
+        params: payload
+      }),
+      providesTags: ['PARCEL'],
+    }),
+
     allParcel: builder.query({
       query: () => ({
         url: '/parcel/all-parcel',
@@ -64,6 +74,6 @@ export const {
   useCancelParcelMutation,
   useAllParcelQuery,
   useDeleteParcelMutation,
-  useChangeParcelStatusMutation
- 
+  useChangeParcelStatusMutation,
+  useFilterByStatusQuery
 } = parcelApi;

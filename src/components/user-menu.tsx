@@ -20,7 +20,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 export default function UserMenu({ data, handleLogout, navigationLinks }: any) {
-  console.log(navigationLinks);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

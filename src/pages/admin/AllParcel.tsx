@@ -11,33 +11,73 @@ import {
   useAllParcelQuery,
   useChangeParcelStatusMutation,
   useDeleteParcelMutation,
+  useFilterByStatusQuery,
 } from '@/redux/features/parcel/parcel.api';
-import { MoreHorizontal, Trash2 } from 'lucide-react';
+import {  Trash2 } from 'lucide-react';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { ParcelStatus, statusColors } from '@/constants/parcelType';
 import { toast } from 'sonner';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useEffect, useState } from 'react';
 
 export default function AllParcel() {
-  const { data } = useAllParcelQuery(undefined);
-
+  const [displayedParcels, setDisplayedParcels] = useState([]);
+  const [filterByStatus, setfilterByStatus] = useState('');
   const [deleteParcel] = useDeleteParcelMutation();
   const [changeParcelStatus] = useChangeParcelStatusMutation();
 
-  if (!data) return <h1>No Parcel Found</h1>;
+  const {
+    data: allParcelData,
+    isLoading: allLoading,
+    isError: allError,
+  } = useAllParcelQuery(undefined);
+
+  const {
+    data: filteredParcelData,
+    isLoading: filterLoading,
+    isError: filterError,
+    
+  } = useFilterByStatusQuery(
+    {
+      status: filterByStatus,
+    },
+    {
+      skip: filterByStatus === '',
+    }
+  );
+
+  
+  useEffect(() => {
+    if (filterByStatus) {
+      setDisplayedParcels(filteredParcelData?.data);
+    } else {
+      setDisplayedParcels(allParcelData?.data);
+    }
+  }, [allParcelData, filteredParcelData, filterByStatus]);
+
+  const isLoading = filterByStatus ? filterLoading : allLoading;
+  const isError = filterByStatus ? filterError : allError;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Sorry bro!</div>;
+  }
+
+  if (!displayedParcels || displayedParcels.length === 0) {
+    return <h1>No Parcel Found</h1>;
+  }
 
   const handleDeleteParcel = async (id: string) => {
     try {
@@ -50,12 +90,11 @@ export default function AllParcel() {
     }
   };
 
-  const handleStatusChange = async (id : string , value : string) => {
-   
+  const handleStatusChange = async (id: string, value: string) => {
     const payload = {
       id,
-      status: value
-    }
+      status: value,
+    };
     try {
       const res = await changeParcelStatus(payload).unwrap();
 
@@ -63,20 +102,51 @@ export default function AllParcel() {
         toast.success(res.message);
       }
     } catch (error: any) {
-      
       toast.error(error.data.message);
     }
+  };
+
+  const handleFilterBystatus = async (value: string) => {
+    setfilterByStatus(value);
   };
   return (
     <div className="container mx-auto">
       <div>
-        <div>
+        <div className="flex gap-6">
           <h1 className="font-bold text-2xl">All parcel</h1>
+          <Select onValueChange={handleFilterBystatus}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                <SelectItem value={ParcelStatus.APPROVED}>APPROVED</SelectItem>
+                <SelectItem value={ParcelStatus.CANCELLED}>
+                  CANCELLED
+                </SelectItem>
+                <SelectItem value={ParcelStatus.DELIVERED}>
+                  DELIVERED
+                </SelectItem>
+                <SelectItem value={ParcelStatus.DISPATCHED}>
+                  DISPATCHED
+                </SelectItem>
+                <SelectItem value={ParcelStatus.IN_TRANSIT}>
+                  IN_TRANSIT
+                </SelectItem>
+                <SelectItem value={ParcelStatus.REQUESTED}>
+                  REQUESTED
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[150px]">Tracking ID</TableHead>
+              <TableHead>Tracking ID</TableHead>
+              <TableHead>Sender Email</TableHead>
+              <TableHead>Receiver Email</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Change Status</TableHead>
               <TableHead>Delivery Address</TableHead>
@@ -87,11 +157,13 @@ export default function AllParcel() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.data?.map((parcel: IParcel) => (
+            {displayedParcels?.map((parcel: IParcel) => (
               <TableRow>
                 <TableCell className="font-medium">
                   {parcel.trackingId}
                 </TableCell>
+                <TableCell className="font-medium">{parcel.sender}</TableCell>
+                <TableCell className="font-medium">{parcel.receiver}</TableCell>
 
                 <TableCell>
                   <span
@@ -146,9 +218,13 @@ export default function AllParcel() {
                 <TableCell>{parcel.weight} kg</TableCell>
                 <TableCell>{parcel.fee}</TableCell>
                 <TableCell className="text-right">
-                  <Button variant={"outline"}
+                  <Button
+                    variant={'outline'}
                     onClick={() => handleDeleteParcel(parcel?._id as string)}
-                  > <Trash2 color='red'/></Button>
+                  >
+                    {' '}
+                    <Trash2 color="red" />
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

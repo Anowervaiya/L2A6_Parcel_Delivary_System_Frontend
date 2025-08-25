@@ -69,13 +69,15 @@ export default function MyParcel() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[150px]">Tracking ID</TableHead>
+                <TableHead>Tracking ID</TableHead>
+                <TableHead>Sender Email</TableHead>
+               
                 <TableHead>Status</TableHead>
                 <TableHead>Delivery Address</TableHead>
                 <TableHead>Delivery Date</TableHead>
                 <TableHead>Weight</TableHead>
                 <TableHead>Fee</TableHead>
-                <TableHead className="text-right">Confirm</TableHead>
+                <TableHead className="text-end">Confirm</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -83,6 +85,9 @@ export default function MyParcel() {
                 <TableRow>
                   <TableCell className="font-medium">
                     {parcel.trackingId}
+                  </TableCell>
+                  <TableCell>
+                    {parcel.sender}
                   </TableCell>
                   <TableCell>
                     <span
@@ -110,7 +115,7 @@ export default function MyParcel() {
 
                   <TableCell>{parcel.weight} kg</TableCell>
                   <TableCell>{parcel.fee}</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-end">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -118,7 +123,7 @@ export default function MyParcel() {
                           <MoreHorizontal />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent>
                         {/* <DropdownMenuSeparator /> */}
                         <DropdownMenuItem
                           onClick={() =>
@@ -147,13 +152,14 @@ export default function MyParcel() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[150px]">Tracking ID</TableHead>
+                <TableHead>Tracking ID</TableHead>
+                <TableHead>Receiver Email</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Delivery Address</TableHead>
                 <TableHead>Delivery Date</TableHead>
                 <TableHead>Weight</TableHead>
                 <TableHead>Fee</TableHead>
-                <TableHead>Cancel</TableHead>
+                <TableHead className='text-end'>Cancel</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -161,6 +167,9 @@ export default function MyParcel() {
                 <TableRow>
                   <TableCell className="font-medium">
                     {parcel.trackingId}
+                  </TableCell>
+                  <TableCell>
+                    {parcel.receiver}
                   </TableCell>
                   <TableCell>
                     <span

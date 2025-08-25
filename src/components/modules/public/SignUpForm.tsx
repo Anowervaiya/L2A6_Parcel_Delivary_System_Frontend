@@ -9,6 +9,8 @@ import { Form, FormControl,  FormField, FormItem, FormLabel, FormMessage } from 
 import { useRegisterMutation } from '@/redux/features/auth/auth.api';
 import { toast } from 'sonner';
 import config from '@/config/config';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { role } from '@/constants/role';
 
 
 
@@ -23,6 +25,10 @@ const signUpSchema = z.object({
   confirmPassword: z
     .string()
     .min(8, { error: 'Confirm Password is too short' }),
+  
+  role: z
+    .string()
+    .min(1, { error: 'select a role' }),
   
 })
   .refine((data) => data.password === data.confirmPassword, {
@@ -43,6 +49,7 @@ function SignUpForm() {
       email: '',
       password: '',
       confirmPassword: '',
+      role: ''
     },
   });
 
@@ -51,6 +58,7 @@ function SignUpForm() {
       name: data.name,
       email: data.email,
       password: data.password,
+      role: data.role
     };
 
     try {
@@ -133,6 +141,39 @@ function SignUpForm() {
                 </FormItem>
               )}
             />
+             <FormField
+                                control={form.control}
+                                name="role"
+                                render={({ field }) => (
+                                  <FormItem className="flex-1 ">
+                                    <FormLabel>Role</FormLabel>
+                                    <Select
+                                      onValueChange={field.onChange}
+                                      defaultValue={field.value}
+                                     
+                                    >
+                                      <FormControl>
+                                        <SelectTrigger className="w-full">
+                                          <SelectValue />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                      
+                                        <SelectItem value={ role.RECEIVER}>
+                                              receiver
+                                            </SelectItem>
+                                      
+                                        <SelectItem value={ role.SENDER}>
+                                              sender
+                                            </SelectItem>
+                                         
+                                      </SelectContent>
+                                    </Select>
+            
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
 
             <Button variant={'outline'} type="submit" className="w-full">
               Register
