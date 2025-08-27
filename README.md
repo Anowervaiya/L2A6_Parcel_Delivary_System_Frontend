@@ -1,69 +1,43 @@
-# React + TypeScript + Vite
+# 📦 Parcel Delivery Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **modern web application** for managing parcel delivery services.  
+This frontend is built with **React.js + TypeScript**, and integrates seamlessly with the [Parcel Delivery Backend](../backend).  
 
-Currently, two official plugins are available:
+Users can **register, log in, create parcels, track parcels, and confirm deliveries**, while Admins have full control over users and parcel management.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Authentication & Authorization**
+  - Login/Register with Email & Password
+  - Google OAuth Login
+  - Role-based access (User, Admin, Delivery Staff)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **User Features**
+  - Create and manage parcels
+  - Track parcel status in real-time
+  - Cancel parcel (before delivery)
+  - Confirm delivery upon receiving
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Admin Features**
+  - Manage users (view, block/unblock, delete)
+  - Manage parcels (view all, filter by status, update status, delete)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **UI/UX**
+  - Responsive design (mobile + desktop)
+  - Dashboard for Senders, Receivers, and Admin
+  - Parcel tracking timeline (with status logs)
+  - Notifications for status updates
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Live link 
+-frontend : https://clinquant-sundae-49fd74.netlify.app
+-backend  : https://l2-a5-percel-delivary-system-backen.vercel.app/api/v1
+## ⚙️ Setup & Installation
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/Anowervaiya/L2A5_parcel_delivery_frontend.git
+cd L2A5_parcel_delivery_frontend
