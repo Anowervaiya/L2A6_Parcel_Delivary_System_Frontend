@@ -18,8 +18,19 @@ import {
 import React from 'react';
 
 import { Link } from 'react-router';
+import { useAppDispatch } from '@/redux/hooks';
+import { authApi, useLogoutMutation } from '@/redux/features/auth/auth.api';
 
-export default function UserMenu({ data, handleLogout, navigationLinks }: any) {
+export default function UserMenu({ data,  navigationLinks }: any) {
+    const dispatch = useAppDispatch();
+
+    const [logout] = useLogoutMutation();
+
+  const handleLogout = async () => {
+     
+      await logout(undefined);
+      dispatch(authApi.util.resetApiState());
+    };
 
   return (
     <DropdownMenu>
@@ -64,7 +75,7 @@ export default function UserMenu({ data, handleLogout, navigationLinks }: any) {
         </DropdownMenuItem>
         <DropdownMenuItem>
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span onClick={handleLogout}>Logout</span>
+          <button onClick={ handleLogout}>Logout</button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

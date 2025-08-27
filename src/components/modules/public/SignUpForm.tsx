@@ -66,7 +66,7 @@ function SignUpForm() {
       await register(userInfo).unwrap();
       toast.success("Account created successfully")
    
-       navigate('/verify', { state: data.email });
+       navigate('/login');
 
       
     } catch (error) {

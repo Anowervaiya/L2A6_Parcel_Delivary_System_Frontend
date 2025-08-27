@@ -6,13 +6,13 @@ import Home from '@/pages/Home/Home';
 import { Login } from '@/pages/public/logIn';
 
 import { SignUp } from '@/pages/public/signUp';
-import Verify from '@/pages/public/verify';
 import { generateRoutes } from '@/utils/generateRoutes';
 import { withAuth } from '@/utils/withAuth';
 import { createBrowserRouter, Navigate } from 'react-router';
 import {  senderSidebarItems } from './senderSidebarItems';
 import { adminSidebarItems } from './adminSidebarItems';
 import { receiverSidebarItems } from './receiverSidebarItems';
+import About from '@/pages/about/About';
 
 export const router = createBrowserRouter([
   {
@@ -35,9 +35,13 @@ export const router = createBrowserRouter([
     Component: SignUp,
   },
   {
-    path: '/verify',
-    Component: Verify,
+    path: '/about',
+    Component: About,
   },
+  // {
+  //   path: '/verify',
+  //   Component: Verify,
+  // },
   {
     Component: withAuth(DashboardLayout, role.SENDER as TRole),
     path: '/sender',

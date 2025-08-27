@@ -62,7 +62,7 @@ export default function Verify() {
     try {
       const res = await sendOtp({ email: email }).unwrap();
 
-      if (res.success) {
+      if ((res as { success?: boolean }).success) {
         toast.success('OTP Sent', { id: toastId });
         setConfirmed(true);
         setTimer(5);
@@ -81,7 +81,7 @@ export default function Verify() {
 
     try {
       const res = await verifyOtp(userInfo).unwrap();
-      if (res.success) {
+      if ((res as { success?: boolean }).success) {
         toast.success('OTP Verified', { id: toastId });
         setConfirmed(true);
         navigate('/login')

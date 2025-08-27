@@ -17,10 +17,8 @@ import UserMenu from "../user-menu"
 import Logo from "../logo"
 import { Link } from "react-router"
 import { role } from "@/constants/role"
-import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api"
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api"
 import React from "react"
-import { useAppDispatch } from "@/redux/hooks"
-import { baseApi } from "@/redux/baseApi"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -44,17 +42,7 @@ type UserInfoResponse = {
 
 export default function Navbar() {
   const { data } = useUserInfoQuery(undefined) as UserInfoResponse;
-  const dispatch = useAppDispatch()
 
-  const [logout] = useLogoutMutation()
-
-  const handleLogout = async () => {
- 
-    await logout(undefined)
-    dispatch(authApi.util.resetApiState())
-    
-    
-  }
 
 
   return (
@@ -145,7 +133,7 @@ export default function Navbar() {
             {data?.data?.email  ? (
               <UserMenu
                 navigationLinks={navigationLinks}
-                handleLogout={handleLogout}
+             
                 data={data?.data}
               />
             ) : (

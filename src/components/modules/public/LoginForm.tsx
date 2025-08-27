@@ -17,10 +17,10 @@ import config from '@/config/config';
    const navigate = useNavigate();
 
   const form = useForm({
-    //! For development only
+ 
     defaultValues: {
-      email: "mdanowerhossen727@gmail.com",
-      password: "@An123456789",
+      email: "",
+      password: "",
     },
   });
 
@@ -32,7 +32,8 @@ import config from '@/config/config';
     try {
       const res = await login(data).unwrap();
 
-      if (res.success) {
+      // Type assertion for expected response shape
+      if ((res as { success?: boolean }).success) {
         toast.success("Logged in successfully");
         navigate("/");
       }
@@ -41,10 +42,10 @@ import config from '@/config/config';
 
 
       
-      if (err.data.message === "User is not verified") {
-        toast.error("Your account is not verified");
-        navigate("/verify", { state: data.email });
-      }
+      // if (err.data.message === "User is not verified") {
+      //   toast.error("Your account is not verified");
+      //   navigate("/verify", { state: data.email });
+      // }
       toast.error(err?.data?.message)
     }
   };

@@ -14,7 +14,7 @@ export function SignUp({ className, ...props }: React.ComponentProps<'div'>) {
             <CardContent className="grid p-0 md:grid-cols-2">
               <div className="bg-muted relative hidden md:block">
                 <img
-                  src="src/assets/images/login.jpg"
+                  src="login.jpg"
                   alt="Image"
                   className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />

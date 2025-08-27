@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import {  Ban, CheckCircle, Trash2, XCircle } from 'lucide-react';
+import {  Ban, CheckCircle, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -87,7 +87,7 @@ export default function AllUser() {
                   <TableCell className="text-gray-700">{user.email}</TableCell>
                   <TableCell className="text-gray-700">{user.role}</TableCell>
                   <TableCell className="space-y-1">
-                    <span
+                    {/* <span
                       className={`flex items-center space-x-2 ${
                         user.isVerified ? 'text-green-500' : 'text-gray-500'
                       }`}
@@ -98,7 +98,7 @@ export default function AllUser() {
                         <XCircle size={16} />
                       )}
                       <span>{user.isVerified ? 'Verified' : 'Unverified'}</span>
-                    </span>
+                    </span> */}
                     <span
                       className={`flex items-center space-x-2 ${
                         user.isBlock ? 'text-red-500' : 'text-green-500'

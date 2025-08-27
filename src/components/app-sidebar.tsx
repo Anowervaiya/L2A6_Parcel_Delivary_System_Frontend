@@ -15,12 +15,15 @@ import { Link } from 'react-router';
 import { getSidebarItems } from '@/utils/getSidebarItems';
 import { useUserInfoQuery } from '@/redux/features/auth/auth.api';
 import Logo from './logo';
+import type { TRole } from '@/interfaces/global.interface';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: userData } = useUserInfoQuery(undefined);
 
+  const role = (userData as { data?: { role?: string } })?.data?.role;
+
   const data = {
-    navMain: getSidebarItems(userData?.data?.role),
+    navMain: getSidebarItems(role as TRole),
   };
 
 

@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import LoginForm from "@/components/modules/public/LoginForm";
 
 
+
 export function Login({
   className,
   ...props
@@ -15,14 +16,11 @@ export function Login({
         <div className={cn('flex flex-col gap-6', className)} {...props}>
           <Card className="overflow-hidden p-0">
             <CardContent className="grid p-0 md:grid-cols-2">
-
-              
               <LoginForm />
-              
 
               <div className="bg-muted relative hidden md:block">
                 <img
-                  src="src/assets/images/login.jpg"
+                  src="login.jpg"
                   alt="Image"
                   className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />
