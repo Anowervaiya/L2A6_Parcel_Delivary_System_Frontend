@@ -2,20 +2,7 @@
 import { useGetAdminRevenueGrowthQuery } from "@/redux/features/dashboard/dashboard.api"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
-const data = [
-  { month: "Jan", revenue: 12000, projection: 12000 },
-  { month: "Feb", revenue: 15000, projection: 14500 },
-  { month: "Mar", revenue: 18000, projection: 17200 },
-  { month: "Apr", revenue: 22000, projection: 21000 },
-  { month: "May", revenue: 28000, projection: 26800 },
-  { month: "Jun", revenue: 32000, projection: 32500 },
-  { month: "Jul", revenue: 38000, projection: 39200 },
-  { month: "Aug", revenue: 42000, projection: 45000 },
-  { month: "Sep", revenue: 45000, projection: 48200 },
-  { month: "Oct", revenue: 48520, projection: 52000 },
-  { month: "Nov", projection: 56000 },
-  { month: "Dec", projection: 60000 },
-]
+
 
 export function RevenueGrowthChart() {
   const {data} = useGetAdminRevenueGrowthQuery()

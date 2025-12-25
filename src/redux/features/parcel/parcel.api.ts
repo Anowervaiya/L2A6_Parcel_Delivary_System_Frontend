@@ -8,45 +8,42 @@ export interface StatusDistributionItem {
   name: string;
   value: number;
 }
-// Types
-export interface DashboardStats {
-  data: {
-    totalParcels: number;
-  requested: number;
-  inTransit: number;
-  delivered: number;
-  monthlyData:MonthlyDataItem[];
-  statusDistribution:StatusDistributionItem[];
-  },
-  message:string;
-  statusCode:number;
-  success:boolean
-}
-
-export interface Parcel {
+export interface IParcel {
   _id: string;
   trackingId: string;
-  receiver: { name: string };
-  deliveryAddress: string;
+  sender: string;
+  receiver: string;
   currentStatus: string;
-  createdAt: string;
+  deliveryAddress: string;
+  deliveryDate: string;
+  weight: number;
+  fee: number;
 }
 
-export interface RecentParcelsResponse {
-  parcels: Parcel[];
-  pagination: {
-    total: number;
-    page: number;
-    pages: number;
-  };
+export interface ParcelMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 }
 
-export interface RecentParcelsParams {
+export interface AllParcelResponse {
+  data: IParcel[];
+  meta: ParcelMeta;
+  success: boolean;
+  message: string;
+  statusCode: number;
+}
+
+export interface AllParcelQuery {
   page?: number;
   limit?: number;
   status?: string;
   search?: string;
 }
+
+
+
 
 export const parcelApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -110,31 +107,16 @@ export const parcelApi = baseApi.injectEndpoints({
       providesTags: ['PARCEL'],
     }),
 
-    allParcel: builder.query({
-      query: () => ({
+    allParcel: builder.query<AllParcelResponse, AllParcelQuery>({
+      query: (query) => ({
         url: '/parcel/all-parcel',
         method: 'GET',
+        params: query, 
       }),
       providesTags: ['PARCEL'],
     }),
-
-    // Dashboard endpoints
-    getDashboardStats: builder.query<DashboardStats, void>({
-      query: () => ({
-        url: '/parcel/dashboard/stats',
-        method: 'GET',
-      }),
-      providesTags: ['DASHBOARD'],
-    }),
-
-    getRecentParcels: builder.query<RecentParcelsResponse, RecentParcelsParams | void>({
-      query: (params = {}) => ({
-        url: '/parcel/dashboard/recent',
-        method: 'GET',
-        params,
-      }),
-      providesTags: ['PARCEL', 'DASHBOARD'],
-    }),
+ 
+    
   }),
 });
 
@@ -149,7 +131,4 @@ export const {
   useChangeParcelStatusMutation,
   useFilterByStatusQuery,
   
-  // Dashboard hooks
-  useGetDashboardStatsQuery,
-  useGetRecentParcelsQuery,
 } = parcelApi;

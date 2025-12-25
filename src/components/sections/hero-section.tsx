@@ -27,10 +27,10 @@ export default function HeroSection() {
       </div>
 
       {/* Content Container */}
-      <div className="relative h-screen flex flex-col">
+      <div className="relative  h-screen flex flex-col">
         {/* Main Content */}
-        <div className="flex-1 flex items-center">
-          <div className="w-full px-4 md:px-8 pt-20">
+        <div className="flex-1 container mx-auto  flex items-center">
+          <div className="w-full px-4  pt-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className={`space-y-6 text-white ${showAnimation ? "animate-fadeIn" : ""}`}>
                 {/* Heading and Subheading */}
@@ -83,7 +83,7 @@ export default function HeroSection() {
         </div>
 
         <div className="bg-white/10 backdrop-blur-md border-t border-white/20">
-          <div className="px-4 md:px-8 py-6">
+          <div className="px-4 container mx-auto  py-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {/* Parcels Stat */}
               <div className="flex items-center gap-3">

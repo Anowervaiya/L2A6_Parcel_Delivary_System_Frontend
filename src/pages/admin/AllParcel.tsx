@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -5,19 +6,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import type { IParcel } from '@/interfaces/parcel.interface';
-import {
-  useAllParcelQuery,
-  useChangeParcelStatusMutation,
-  useDeleteParcelMutation,
-  useFilterByStatusQuery,
-} from '@/redux/features/parcel/parcel.api';
-import {  Trash2 } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-import { ParcelStatus, statusColors } from '@/constants/parcelType';
-import { toast } from 'sonner';
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -26,211 +17,259 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useEffect, useState } from 'react';
+} from "@/components/ui/select";
+import { Trash2, Search } from "lucide-react";
+import { toast } from "sonner";
+
+import type { IParcel } from "@/interfaces/parcel.interface";
+import {
+  useAllParcelQuery,
+  useChangeParcelStatusMutation,
+  useDeleteParcelMutation,
+} from "@/redux/features/parcel/parcel.api";
+import { ParcelStatus, statusColors } from "@/constants/parcelType";
 
 export default function AllParcel() {
-  const [displayedParcels, setDisplayedParcels] = useState([]);
-  const [filterByStatus, setfilterByStatus] = useState('');
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
+
+  const { data, isLoading, isError, refetch } = useAllParcelQuery({
+    page,
+    limit,
+    search: search || undefined,
+    status: status && status !== "all" ? status.toUpperCase() : undefined,
+  });
+
   const [deleteParcel] = useDeleteParcelMutation();
   const [changeParcelStatus] = useChangeParcelStatusMutation();
 
-  const {
-    data: allParcelData,
-    isLoading: allLoading,
-    isError: allError,
-  } = useAllParcelQuery(undefined);
+  const parcels = data?.data || [];
+  const meta = data?.meta;
 
-  const {
-    data: filteredParcelData,
-    isLoading: filterLoading,
-    isError: filterError,
-    
-  } = useFilterByStatusQuery(
-    {
-      status: filterByStatus,
-    },
-    {
-      skip: filterByStatus === '',
-    }
-  );
-
-  
-  useEffect(() => {
-    if (filterByStatus) {
-      setDisplayedParcels(filteredParcelData?.data);
-    } else {
-      setDisplayedParcels(allParcelData?.data);
-    }
-  }, [allParcelData, filteredParcelData, filterByStatus]);
-
-  const isLoading = filterByStatus ? filterLoading : allLoading;
-  const isError = filterByStatus ? filterError : allError;
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Sorry bro!</div>;
-  }
-
-  if (!displayedParcels || displayedParcels.length === 0) {
-    return <h1>No Parcel Found</h1>;
-  }
-
+  // 🔹 Actions
   const handleDeleteParcel = async (id: string) => {
     try {
       const res = await deleteParcel(id).unwrap();
-      if (res.data.success) {
+      if (res.success) {
         toast.success(res.message);
+        refetch();
       }
     } catch (error: any) {
-      toast.error(error.data.message);
+      toast.error(error?.data?.message || "Delete failed");
     }
   };
 
   const handleStatusChange = async (id: string, value: string) => {
-    const payload = {
-      id,
-      status: value,
-    };
     try {
-      const res = await changeParcelStatus(payload).unwrap();
-
-      if (res.data.success) {
+      const res = await changeParcelStatus({ id, status: value }).unwrap();
+      if (res.success) {
         toast.success(res.message);
+        refetch();
       }
     } catch (error: any) {
-      toast.error(error.data.message);
+      toast.error(error?.data?.message || "Status update failed");
     }
   };
 
-  const handleFilterBystatus = async (value: string) => {
-    setfilterByStatus(value);
+  if (isLoading) return <div className="p-10 text-center">Loading...</div>;
+  if (isError)
+    return <div className="p-10 text-center">Something went wrong</div>;
+
+  const totalPages = meta?.totalPages || 1;
+
+  // 🔹 Generate page numbers for pagination (limit to 5 pages visible)
+  const getPageNumbers = () => {
+    const delta = 2;
+    const range: number[] = [];
+    for (
+      let i = Math.max(1, page - delta);
+      i <= Math.min(totalPages, page + delta);
+      i++
+    ) {
+      range.push(i);
+    }
+    return range;
   };
+
   return (
-    <div className="container mx-auto">
-      <div>
-        <div className="flex gap-6">
-          <h1 className="font-bold text-2xl">All parcel</h1>
-          <Select onValueChange={handleFilterBystatus}>
+    <div className="container mx-auto p-6 space-y-6">
+      {/* Header + Filters */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <h1 className="text-2xl font-bold">All Parcels</h1>
+
+        <div className="flex flex-col sm:flex-row gap-3">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search tracking, sender, receiver..."
+              className="pl-8 w-[260px]"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+            />
+          </div>
+
+          {/* Status Filter */}
+          <Select
+            value={status}
+            onValueChange={(value) => {
+              setStatus(value);
+              setPage(1);
+            }}
+          >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="filter by status" />
+              <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value={ParcelStatus.APPROVED}>APPROVED</SelectItem>
-                <SelectItem value={ParcelStatus.CANCELLED}>
-                  CANCELLED
-                </SelectItem>
-                <SelectItem value={ParcelStatus.DELIVERED}>
-                  DELIVERED
-                </SelectItem>
-                <SelectItem value={ParcelStatus.DISPATCHED}>
-                  DISPATCHED
-                </SelectItem>
-                <SelectItem value={ParcelStatus.IN_TRANSIT}>
-                  IN_TRANSIT
-                </SelectItem>
-                <SelectItem value={ParcelStatus.REQUESTED}>
-                  REQUESTED
-                </SelectItem>
+                <SelectLabel>Status</SelectLabel>
+                <SelectItem value="all">All</SelectItem>
+                {Object.values(ParcelStatus).map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {s}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
+      </div>
+
+      {/* Table */}
+      <div className="border rounded-md overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Tracking ID</TableHead>
-              <TableHead>Sender Email</TableHead>
-              <TableHead>Receiver Email</TableHead>
+              <TableHead>Sender</TableHead>
+              <TableHead>Receiver</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Change Status</TableHead>
-              <TableHead>Delivery Address</TableHead>
-              <TableHead>Delivery Date</TableHead>
+              <TableHead>Address</TableHead>
+              <TableHead>Date</TableHead>
               <TableHead>Weight</TableHead>
               <TableHead>Fee</TableHead>
               <TableHead className="text-right">Delete</TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
-            {displayedParcels?.map((parcel: IParcel) => (
+            {parcels.length > 0 ? (
+              (parcels as any).map((parcel: IParcel) => (
+                <TableRow key={parcel._id}>
+                  <TableCell>{parcel.trackingId}</TableCell>
+                  <TableCell>{parcel.sender}</TableCell>
+                  <TableCell>{parcel.receiver}</TableCell>
+
+                  <TableCell>
+                    <span
+                      className={`inline-flex items-center gap-2 px-2 py-1 rounded-full text-xs font-semibold ${
+                        parcel.currentStatus === ParcelStatus.REQUESTED
+                          ? "bg-yellow-100 text-yellow-800"
+                          : parcel.currentStatus === ParcelStatus.IN_TRANSIT
+                          ? "bg-blue-100 text-blue-800"
+                          : parcel.currentStatus === ParcelStatus.DISPATCHED
+                          ? "bg-purple-100 text-purple-800"
+                          : parcel.currentStatus === ParcelStatus.DELIVERED
+                          ? "bg-green-100 text-green-800"
+                          : parcel.currentStatus === ParcelStatus.CANCELLED
+                          ? "bg-red-100 text-red-800"
+                          : "bg-gray-100 text-gray-800"
+                      }`}
+                    >
+                      <span className="h-2 w-2 rounded-full bg-current" />
+                      {parcel.currentStatus}
+                    </span>
+                  </TableCell>
+
+                  <TableCell>
+                    <Select
+                      onValueChange={(value) =>
+                        handleStatusChange(parcel._id as string, value)
+                      }
+                    >
+                      <SelectTrigger className="w-[150px]">
+                        <SelectValue placeholder={parcel.currentStatus} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(ParcelStatus).map((s) => (
+                          <SelectItem key={s} value={s}>
+                            {s}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </TableCell>
+
+                  <TableCell>{parcel.deliveryAddress}</TableCell>
+                  <TableCell>
+                    {new Date(parcel.deliveryDate).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>{parcel.weight} kg</TableCell>
+                  <TableCell>৳{parcel.fee}</TableCell>
+
+                  <TableCell className="text-right">
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleDeleteParcel(parcel._id as string)}
+                    >
+                      <Trash2 className="text-red-500" />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
               <TableRow>
-                <TableCell className="font-medium">
-                  {parcel.trackingId}
-                </TableCell>
-                <TableCell className="font-medium">{parcel.sender}</TableCell>
-                <TableCell className="font-medium">{parcel.receiver}</TableCell>
-
-                <TableCell>
-                  <span
-                    style={{
-                      color: parcel.currentStatus
-                        ? statusColors[parcel.currentStatus]
-                        : undefined,
-                    }}
-                    className={`
-      ${parcel.currentStatus ? statusColors[parcel.currentStatus] : ''} 
-      flex items-center space-x-2 
-      font-semibold`}
-                  >
-                    <svg viewBox="0 0 8 8" className="w-2 h-2 fill-current">
-                      <circle cx="4" cy="4" r="4" />
-                    </svg>
-                    <span>{parcel.currentStatus}</span>
-                  </span>
-                </TableCell>
-
-                <TableCell>
-                  <Select
-                    onValueChange={value =>
-                      handleStatusChange(parcel._id as string, value)
-                    }
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder={parcel.currentStatus} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={ParcelStatus.APPROVED}>
-                        {ParcelStatus.APPROVED}
-                      </SelectItem>
-                      <SelectItem value={ParcelStatus.DISPATCHED}>
-                        {ParcelStatus.DISPATCHED}
-                      </SelectItem>
-                      <SelectItem value={ParcelStatus.IN_TRANSIT}>
-                        {ParcelStatus.IN_TRANSIT}
-                      </SelectItem>
-                      <SelectItem value={ParcelStatus.CANCELLED}>
-                        {ParcelStatus.CANCELLED}
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </TableCell>
-                <TableCell>{parcel.deliveryAddress}</TableCell>
-
-                <TableCell>
-                  {new Date(parcel.deliveryDate).toLocaleDateString()}
-                </TableCell>
-
-                <TableCell>{parcel.weight} kg</TableCell>
-                <TableCell>{parcel.fee}</TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant={'outline'}
-                    onClick={() => handleDeleteParcel(parcel?._id as string)}
-                  >
-                    {' '}
-                    <Trash2 color="red" />
-                  </Button>
+                <TableCell colSpan={10} className="text-center py-10">
+                  No parcel found
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </div>
+
+      {/* Pagination */}
+      {meta && meta.totalPages > 1 && (
+        <div className="flex items-center justify-between pt-4">
+          <p className="text-sm text-muted-foreground">
+            Page {meta.page} of {meta.totalPages} • Total {meta.total}
+          </p>
+
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              disabled={page === 1}
+              onClick={() => setPage((p) => p - 1)}
+            >
+              Previous
+            </Button>
+
+            {getPageNumbers().map((pNum) => (
+              <Button
+                key={pNum}
+                variant={page === pNum ? "default" : "outline"}
+                onClick={() => setPage(pNum)}
+              >
+                {pNum}
+              </Button>
+            ))}
+
+            <Button
+              variant="outline"
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

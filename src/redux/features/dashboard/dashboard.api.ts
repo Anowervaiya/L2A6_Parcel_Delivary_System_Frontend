@@ -15,7 +15,7 @@ export interface StatusDistributionItem {
 export interface SenderDashboardStats {
   data: {
     totalParcels: number;
-    pending: number;
+    requested: number;
     inTransit: number;
     delivered: number;
     monthlyData: MonthlyDataItem[];
@@ -36,13 +36,15 @@ export interface SenderParcel {
 }
 
 export interface SenderParcelsResponse {
-  data: {
-    parcels: SenderParcel[];
-    pagination: {
-      total: number;
-      page: number;
-      pages: number;
-    };
+  data: SenderParcel[];
+
+
+  meta: {
+    total: number;
+    page: number;
+    limit:number,
+    totalPages:number;
+    pages: number;
   };
   message: string;
   statusCode: number;
@@ -199,23 +201,27 @@ export interface RevenueGrowthParams {
 // ============= API ENDPOINTS =============
 export const dashboardApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // ========== SENDER DASHBOARD ==========
-    // getSenderDashboardStats: builder.query<SenderDashboardStats, void>({
-    //   query: () => ({
-    //     url: '/dashboard/sender/stats',
-    //     method: 'GET',
-    //   }),
-    //   providesTags: ['DASHBOARD'],
-    // }),
 
-    // getSenderParcels: builder.query<SenderParcelsResponse, SenderParcelsParams | void>({
-    //   query: (params = {}) => ({
-    //     url: '/dashboard/sender/parcels',
-    //     method: 'GET',
-    //     params,
-    //   }),
-    //   providesTags: ['PARCEL', 'DASHBOARD'],
-    // }),
+    getSenderDashboardStats: builder.query<SenderDashboardStats, void>({
+      query: () => ({
+        url: "/dashboard/sender/stats",
+        method: "GET",
+      }),
+      providesTags: ["DASHBOARD"],
+    }),
+
+    getSenderParcels: builder.query<
+      SenderParcelsResponse,
+      SenderParcelsParams | void
+    >({
+      query: (params = {}) => ({
+        url: "/dashboard/sender/parcels",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["PARCEL", "DASHBOARD"],
+    }),
+
 
     // ========== RECEIVER DASHBOARD ==========
     getReceiverDashboardStats: builder.query<ReceiverDashboardStats, void>({
@@ -235,7 +241,7 @@ export const dashboardApi = baseApi.injectEndpoints({
       providesTags: ['PARCEL', 'DASHBOARD'],
     }),
 
-     // ========== ADMIN DASHBOARD ==========
+    // ========== ADMIN DASHBOARD ==========
     getAdminOverview: builder.query<AdminOverviewStats, void>({
       query: () => ({
         url: '/dashboard/admin/overview',
@@ -281,15 +287,15 @@ export const dashboardApi = baseApi.injectEndpoints({
 
   }),
 
-  
+
 });
 
 // ============= EXPORT HOOKS =============
 export const {
-  // Sender Dashboard hooks
-//   useGetSenderDashboardStatsQuery,
-//   useGetSenderParcelsQuery,
 
+  // Sender Dashboard hooks
+  useGetSenderDashboardStatsQuery,
+  useGetSenderParcelsQuery,
   // Receiver Dashboard hooks
   useGetReceiverDashboardStatsQuery,
   useGetReceiverParcelsQuery,

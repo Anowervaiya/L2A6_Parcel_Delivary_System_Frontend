@@ -5,12 +5,13 @@ import { OverviewCard } from "./overview-card"
 import { MonthlyVolumeChart } from "./charts/monthly-volume-chart"
 import { StatusDistributionChart } from "./charts/status-distribution-chart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useGetDashboardStatsQuery, type MonthlyDataItem, type StatusDistributionItem } from "@/redux/features/parcel/parcel.api"
+import {  type MonthlyDataItem, type StatusDistributionItem } from "@/redux/features/parcel/parcel.api"
 import SenderParcelTable from "@/pages/sender/SenderParcelTable"
+import { useGetSenderDashboardStatsQuery } from "@/redux/features/dashboard/dashboard.api"
 
 export default function SenderDashboard() {
 
-  const {data : dashboardData} = useGetDashboardStatsQuery()
+  const {data : dashboardData} = useGetSenderDashboardStatsQuery()
 
 
   return (

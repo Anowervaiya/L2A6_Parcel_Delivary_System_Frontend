@@ -35,18 +35,26 @@ import {
 import { MoreHorizontal, Package, CheckCircle, XCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
- const getStatusBadge = (status: string) => {
-    const statusMap: Record<string, { variant: 'default' | 'secondary' | 'outline' | 'destructive'; label: string }> = {
-      requested: { variant: 'outline', label: 'Requested' },
-      in_transit: { variant: 'secondary', label: 'In Transit' },
-      dispatched: { variant: 'secondary', label: 'Dispatched' },
-      delivered: { variant: 'secondary', label: 'Delivered' },
-      cancelled: { variant: 'destructive', label: 'Cancelled' },
-    };
 
-    const config = statusMap[status.toLowerCase()] || { variant: 'outline' as const, label: status };
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+ const getStatusBadge = (status: string) => {
+  const map: Record<string, { bg: string; text: string; label: string }> = {
+    requested: { bg: "bg-yellow-100", text: "text-yellow-800", label: "Requested" },
+    in_transit: { bg: "bg-blue-100", text: "text-blue-800", label: "In Transit" },
+    dispatched: { bg: "bg-purple-100", text: "text-purple-800", label: "Dispatched" },
+    delivered: { bg: "bg-green-100", text: "text-green-800", label: "Delivered" },
+    cancelled: { bg: "bg-red-100", text: "text-red-800", label: "Cancelled" },
   };
+
+  const config = map[status.toLowerCase()] || { bg: "bg-gray-100", text: "text-gray-800", label: status };
+
+  return (
+    <span className={`inline-flex items-center gap-2 px-2 py-1 rounded-full text-xs font-semibold ${config.bg} ${config.text}`}>
+      <span className="h-2 w-2 rounded-full bg-current" />
+      {config.label}
+    </span>
+  );
+};
+
 
 
 export default function ReceiverParcels() {
@@ -95,7 +103,7 @@ export default function ReceiverParcels() {
   const pagination = receivedParcel?.data?.pagination;
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className=" p-6 space-y-8">
       <Card>
         <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>

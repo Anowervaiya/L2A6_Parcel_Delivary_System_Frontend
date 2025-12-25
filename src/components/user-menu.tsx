@@ -15,13 +15,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import React from 'react';
 
-import { Link } from 'react-router';
 import { useAppDispatch } from '@/redux/hooks';
 import { authApi, useLogoutMutation } from '@/redux/features/auth/auth.api';
 
-export default function UserMenu({ data,  navigationLinks }: any) {
+export default function UserMenu({ data }: any) {
     const dispatch = useAppDispatch();
 
     const [logout] = useLogoutMutation();
@@ -57,25 +55,9 @@ export default function UserMenu({ data,  navigationLinks }: any) {
           </span>
         </DropdownMenuLabel>
 
-        <DropdownMenuItem>
-          {navigationLinks?.map((link: any, index: any) => (
-            <React.Fragment key={index}>
-              {link.role === data?.role && (
-                <>
-                  <LayoutDashboard
-                    size={16}
-                    className="opacity-60"
-                    aria-hidden="true"
-                  />
-                  <Link to={link.href}>{link.label}</Link>
-                </>
-              )}
-            </React.Fragment>
-          ))}
-        </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={ handleLogout}>
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <button onClick={ handleLogout}>Logout</button>
+          <button >Logout</button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
