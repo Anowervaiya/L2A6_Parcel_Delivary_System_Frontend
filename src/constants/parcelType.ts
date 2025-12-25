@@ -33,3 +33,14 @@ export const ParcelStatus = {
   IN_TRANSIT: 'IN_TRANSIT',
   DELIVERED: 'DELIVERED',
 };
+
+export interface BangladeshDivision {
+  DHAKA : "Dhaka",
+  CHATTOGRAM : "Chattogram",
+  RAJSHAHI : "Rajshahi",
+  KHULNA : "Khulna",
+  BARISHAL : "Barishal",
+  SYLHET : "Sylhet",
+  RANGPUR : "Rangpur",
+  MYMENSINGH : "Mymensingh",
+}

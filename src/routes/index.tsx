@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/sender/my-parcel" />,
+        element: <Navigate to="/sender/analytics" />,
       },
       ...generateRoutes(senderSidebarItems),
     ],
@@ -59,7 +59,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/receiver/my-parcel" />,
+        element: <Navigate to="/receiver/analytics" />,
       },
       ...generateRoutes(receiverSidebarItems),
     ],

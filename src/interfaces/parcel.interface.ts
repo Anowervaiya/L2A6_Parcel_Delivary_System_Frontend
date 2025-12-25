@@ -1,3 +1,5 @@
+import type { BangladeshDivision } from "@/constants/parcelType";
+
 export interface IParcelStatus {
   REQUESTED: 'REQUESTED';
   APPROVED: 'APPROVED';
@@ -24,6 +26,7 @@ export interface IParcel {
   fee: number;
   sender: string;
   receiver: string;
+  deliveryLocation: string;
   deliveryAddress: string;
   deliveryDate: Date;
   currentStatus?: string;

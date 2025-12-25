@@ -1,8 +1,9 @@
 
 // import Analytics from "@/pages/Admin/Analytics";
 
+import ReceiverDashboard from '@/components/dashboards/receiver-dashboard';
 import type { ISidebarItem } from '@/interfaces/global.interface';
-import MyParcel from '@/pages/sender/MyParcel';
+
 
 
 
@@ -13,9 +14,9 @@ export const receiverSidebarItems: ISidebarItem[] = [
     title: 'Dashboard',
     items: [
       {
-        title: 'My Parcel',
-        url: '/receiver/my-parcel',
-        component: MyParcel,
+        title: 'Analytics',
+        url: '/receiver/analytics',
+        component: ReceiverDashboard,
       },
     ],
   },
