@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api"
 import { Menu, X } from "lucide-react"
 import { useState, useEffect } from "react"

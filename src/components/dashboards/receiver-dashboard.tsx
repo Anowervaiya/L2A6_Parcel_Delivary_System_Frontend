@@ -4,29 +4,8 @@ import { OverviewCard } from "./overview-card"
 import { DeliveryTrendChart } from "./charts/delivery-trend-chart"
 import { LocationDistributionChart } from "./charts/location-distribution-chart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useGetReceiverDashboardStatsQuery, useGetReceiverParcelsQuery, type DeliveryTrendItem, type LocationDistributionItem } from "@/redux/features/dashboard/dashboard.api"
-import { Input } from "../ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { useGetReceiverDashboardStatsQuery, type DeliveryTrendItem, type LocationDistributionItem } from "@/redux/features/dashboard/dashboard.api"
+
 import ReceiverParcels from "@/pages/receiver/receiverParcels"
 export default function ReceiverDashboard() {
 

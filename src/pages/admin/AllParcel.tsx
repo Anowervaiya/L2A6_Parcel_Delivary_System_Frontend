@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import {
   Table,
   TableBody,
@@ -27,7 +27,7 @@ import {
   useChangeParcelStatusMutation,
   useDeleteParcelMutation,
 } from "@/redux/features/parcel/parcel.api";
-import { ParcelStatus, statusColors } from "@/constants/parcelType";
+import { ParcelStatus } from "@/constants/parcelType";
 
 export default function AllParcel() {
   const [page, setPage] = useState(1);

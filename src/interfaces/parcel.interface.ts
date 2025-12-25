@@ -1,4 +1,3 @@
-import type { BangladeshDivision } from "@/constants/parcelType";
 
 export interface IParcelStatus {
   REQUESTED: 'REQUESTED';

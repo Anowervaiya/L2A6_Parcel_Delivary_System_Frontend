@@ -1,4 +1,3 @@
-import Hero from "@/components/modules/Home/Hero";
 import CoverageSection from "@/components/sections/coverage-section";
 import CTASection from "@/components/sections/cta-section";
 import FAQSection from "@/components/sections/faq-section";

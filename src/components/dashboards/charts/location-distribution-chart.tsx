@@ -3,13 +3,6 @@
 import type { LocationDistributionItem } from "@/redux/features/dashboard/dashboard.api"
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts"
 
-const data = [
-  { name: "Dhaka", value: 35 },
-  { name: "Chittagong", value: 20 },
-  { name: "Sylhet", value: 15 },
-  { name: "Khulna", value: 12 },
-  { name: "Others", value: 18 },
-]
 
 const COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"]
 
@@ -27,7 +20,7 @@ export function LocationDistributionChart({data}: {data:LocationDistributionItem
           fill="#8884d8"
           dataKey="value"
         >
-          {data?.map((entry, index) => (
+          {data?.map((_, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>

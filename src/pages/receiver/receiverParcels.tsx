@@ -17,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,13 +25,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { IParcel } from '@/interfaces/parcel.interface';
 import {
-  useCancelParcelMutation,
   useConfirmParcelMutation,
 } from '@/redux/features/parcel/parcel.api';
 import { 
   useGetReceiverParcelsQuery 
 } from '@/redux/features/dashboard/dashboard.api';
-import { MoreHorizontal, Package, CheckCircle, XCircle } from 'lucide-react';
+import { MoreHorizontal, Package, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 
