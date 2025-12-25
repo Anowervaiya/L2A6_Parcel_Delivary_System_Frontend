@@ -1,5 +1,6 @@
-"use client"
 
+
+import { useGetAdminParcelTrendsQuery } from "@/redux/features/dashboard/dashboard.api"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
 const data = [
@@ -16,9 +17,10 @@ const data = [
 ]
 
 export function ParcelTrendsChart() {
+  const {data} = useGetAdminParcelTrendsQuery();
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+      <LineChart data={data?.data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
         <XAxis dataKey="day" stroke="var(--muted-foreground)" />
         <YAxis stroke="var(--muted-foreground)" />

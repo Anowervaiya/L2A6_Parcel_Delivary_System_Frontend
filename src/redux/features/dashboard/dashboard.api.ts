@@ -117,6 +117,85 @@ export interface ReceiverParcelsParams {
   search?: string;
 }
 
+// ============= ADMIN DASHBOARD TYPES =============
+export interface AdminOverviewStats {
+  data: {
+    totalParcels: number;
+    totalUsers: number;
+    pendingDeliveries: number;
+    revenueThisMonth: number
+  };
+  message: string;
+  statusCode: number;
+  success: boolean;
+}
+
+export interface ParcelTrendItem {
+  day: string;
+  delivered: number;
+  transit: number;
+  pending: number;
+}
+
+export interface ParcelTrendsResponse {
+  data: ParcelTrendItem[];
+  message: string;
+  statusCode: number;
+  success: boolean;
+}
+
+export interface DistrictDataItem {
+  district: string;
+  delivered: number;
+  transit: number;
+  pending: number;
+}
+
+export interface DistrictDistributionResponse {
+  data: DistrictDataItem[];
+  message: string;
+  statusCode: number;
+  success: boolean;
+}
+
+export interface RevenueDataItem {
+  month: string;
+  revenue?: number;
+  projection?: number;
+}
+
+export interface RevenueGrowthResponse {
+  data: RevenueDataItem[];
+  message: string;
+  statusCode: number;
+  success: boolean;
+}
+
+export interface SystemMetricsData {
+  avgDeliveryTime: string;
+  successRate: string;
+  peakHours: string;
+  activeNow: number;
+}
+
+export interface SystemMetricsResponse {
+  data: SystemMetricsData;
+  message: string;
+  statusCode: number;
+  success: boolean;
+}
+
+export interface ParcelTrendsParams {
+  days?: number;
+}
+
+export interface DistrictDistributionParams {
+  limit?: number;
+}
+
+export interface RevenueGrowthParams {
+  months?: number;
+}
 // ============= API ENDPOINTS =============
 export const dashboardApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -155,7 +234,54 @@ export const dashboardApi = baseApi.injectEndpoints({
       }),
       providesTags: ['PARCEL', 'DASHBOARD'],
     }),
+
+     // ========== ADMIN DASHBOARD ==========
+    getAdminOverview: builder.query<AdminOverviewStats, void>({
+      query: () => ({
+        url: '/dashboard/admin/overview',
+        method: 'GET',
+      }),
+      providesTags: ['DASHBOARD'],
+    }),
+
+    getAdminParcelTrends: builder.query<ParcelTrendsResponse, ParcelTrendsParams | void>({
+      query: (params = {}) => ({
+        url: '/dashboard/admin/trends',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['DASHBOARD'],
+    }),
+
+    getAdminDistrictDistribution: builder.query<DistrictDistributionResponse, DistrictDistributionParams | void>({
+      query: (params = {}) => ({
+        url: '/dashboard/admin/districts',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['DASHBOARD'],
+    }),
+
+    getAdminRevenueGrowth: builder.query<RevenueGrowthResponse, RevenueGrowthParams | void>({
+      query: (params = {}) => ({
+        url: '/dashboard/admin/revenue',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['DASHBOARD'],
+    }),
+
+    getAdminSystemMetrics: builder.query<SystemMetricsResponse, void>({
+      query: () => ({
+        url: '/dashboard/admin/metrics',
+        method: 'GET',
+      }),
+      providesTags: ['DASHBOARD'],
+    }),
+
   }),
+
+  
 });
 
 // ============= EXPORT HOOKS =============
@@ -167,4 +293,10 @@ export const {
   // Receiver Dashboard hooks
   useGetReceiverDashboardStatsQuery,
   useGetReceiverParcelsQuery,
+  // Admin Dashboard hooks
+  useGetAdminOverviewQuery,
+  useGetAdminParcelTrendsQuery,
+  useGetAdminDistrictDistributionQuery,
+  useGetAdminRevenueGrowthQuery,
+  useGetAdminSystemMetricsQuery,
 } = dashboardApi;

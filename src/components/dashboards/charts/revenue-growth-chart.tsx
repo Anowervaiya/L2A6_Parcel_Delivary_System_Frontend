@@ -1,5 +1,5 @@
-"use client"
 
+import { useGetAdminRevenueGrowthQuery } from "@/redux/features/dashboard/dashboard.api"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
 const data = [
@@ -18,9 +18,10 @@ const data = [
 ]
 
 export function RevenueGrowthChart() {
+  const {data} = useGetAdminRevenueGrowthQuery()
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <AreaChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+      <AreaChart data={data?.data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="var(--chart-1)" stopOpacity={0.3} />

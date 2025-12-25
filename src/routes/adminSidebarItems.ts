@@ -1,10 +1,10 @@
 
 // import Analytics from "@/pages/Admin/Analytics";
 
+import AdminDashboard from '@/components/dashboards/admin-dashboard';
 import type { ISidebarItem } from '@/interfaces/global.interface';
 import AllParcel from '@/pages/admin/AllParcel';
 import AllUser from '@/pages/admin/AllUser';
-import Analytics from '@/pages/admin/Analytics';
 export const adminSidebarItems: ISidebarItem[] = [
   {
     title: 'Dashboard',
@@ -12,7 +12,7 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: 'Analytics',
         url: '/admin/analytics',
-        component: Analytics,
+        component: AdminDashboard,
       },
     ],
   },
