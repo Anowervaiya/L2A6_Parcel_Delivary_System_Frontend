@@ -17,18 +17,26 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useAppDispatch } from '@/redux/hooks';
-import { authApi, useLogoutMutation } from '@/redux/features/auth/auth.api';
+import { baseApi } from '@/redux/baseApi';
 
 export default function UserMenu({ data }: any) {
     const dispatch = useAppDispatch();
 
-    const [logout] = useLogoutMutation();
 
-  const handleLogout = async () => {
-     
-      await logout(undefined);
-      dispatch(authApi.util.resetApiState());
-    };
+const handleLogout = async () => {
+    try {
+      // 1. Clear all RTK Query cache
+      dispatch(baseApi.util.resetApiState());
+
+      // 2. Server-side logout (delete cookies)
+      // await logoutUser();
+
+      // 3. Use replace instead of href (cleaner history)
+      window.location.replace("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <DropdownMenu>
