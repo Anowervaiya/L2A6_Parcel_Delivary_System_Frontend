@@ -17,11 +17,13 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useAppDispatch } from '@/redux/hooks';
+import {  useLogoutMutation } from '@/redux/features/auth/auth.api';
 import { baseApi } from '@/redux/baseApi';
 
 export default function UserMenu({ data }: any) {
     const dispatch = useAppDispatch();
 
+    const [logout] = useLogoutMutation();
 
 const handleLogout = async () => {
     try {
@@ -29,7 +31,7 @@ const handleLogout = async () => {
       dispatch(baseApi.util.resetApiState());
 
       // 2. Server-side logout (delete cookies)
-      // await logoutUser();
+      await logout(undefined);
 
       // 3. Use replace instead of href (cleaner history)
       window.location.replace("/");
