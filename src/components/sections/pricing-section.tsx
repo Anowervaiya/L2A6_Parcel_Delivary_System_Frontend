@@ -54,7 +54,7 @@ export default function PricingSection() {
               </div>
 
               <Button
-                className={`w-full mb-8 ${plan.popular ? "bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white" : "border-2 border-gray-300 text-gray-900 hover:border-purple-500"}`}
+                className={`w-full mb-8 ${plan.popular ? "bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white" : "border-2 bg-accent hover:bg-blue-500 hover:text-white border-gray-300 text-gray-900 hover:border-purple-500"}`}
               >
                 Choose Plan
               </Button>

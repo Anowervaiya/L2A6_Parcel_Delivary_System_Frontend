@@ -60,18 +60,20 @@ export default function Navbar() {
           <Link to="/" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
             Home
           </Link>
-          <Link to="/about" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
-            About
-          </Link>
-          <Link to="/#services" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
+        
+          <Link to="/services" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
             Services
           </Link>
-          <Link to="/#pricing" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
+           <Link to="/tracking" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
+            Tracking
+          </Link>
+          <Link to="/pricing" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
             Pricing
           </Link>
-          <Link to="/#contact" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
-            Contact
+            <Link to="/about" className={`hover:text-purple-400 transition-colors ${textColorClass}`}>
+            About
           </Link>
+         
 
           {/* Conditional Dashboard Link */}
           {data?.data?.email && dashboardLink && (

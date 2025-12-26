@@ -45,7 +45,7 @@ export default function HeroSection() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                  <Link to="/dashboards/sender">
+                  <Link to="/sender/analytics">
                     <Button
                       size="lg"
                       className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
@@ -53,27 +53,16 @@ export default function HeroSection() {
                       Send Parcel
                     </Button>
                   </Link>
-                  <Button
+                  <Link to={'/tracking'}><Button
                     size="lg"
                     variant="outline"
-                    className="border-2 border-white text-white bg-transparent hover:bg-white/10 font-semibold hover:scale-105 transition-all"
+                    className="border-2 border-white text-white bg-transparent hover:bg-white/10 hover:text-white font-semibold hover:scale-105 transition-all"
                   >
                     Track Package
-                  </Button>
+                  </Button></Link>
                 </div>
 
-                <div className="mt-8 max-w-md">
-                  <div className="bg-white rounded-xl shadow-xl p-4 flex items-center gap-2">
-                    <Input
-                      type="text"
-                      placeholder="Enter Tracking ID"
-                      className="flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-0"
-                    />
-                    <button className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white p-2 rounded-lg transition-all hover:shadow-lg">
-                      <Search className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
+              
               </div>
 
               {/* Right side - empty on desktop, content stacks on mobile */}

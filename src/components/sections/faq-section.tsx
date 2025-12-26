@@ -1,4 +1,4 @@
-"use client"
+
 
 import { Card } from "@/components/ui/card"
 import { ChevronDown } from "lucide-react"
@@ -50,7 +50,7 @@ export default function FAQSection() {
 
         <div className="max-w-3xl mx-auto space-y-4">
           {faqs.map((faq, idx) => (
-            <Card key={idx} className="overflow-hidden">
+            <Card key={idx} className="overflow-hidden p-0">
               <button
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
                 className="w-full p-6 flex items-center justify-between hover:bg-gray-50 transition-colors"

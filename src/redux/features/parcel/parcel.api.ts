@@ -43,7 +43,32 @@ export interface AllParcelQuery {
 }
 
 
-
+export interface TrackParcelResponse {
+  data: {
+    _id: string;
+    trackingId: string;
+    type: string;
+    weight: number;
+    fee: number;
+    currentStatus: string;
+    deliveryLocation: string;
+    deliveryAddress: string;
+    deliveryDate: string;
+    statusLogs: {
+      status: string;
+      timestamp: string;
+      location?: string;
+      note?: string;
+    }[];
+    sender: string;
+    receiver: string;
+    isBlocked: boolean;
+    isCancelled: boolean;
+  };
+  success: boolean;
+  message: string;
+  statusCode: number;
+}
 
 export const parcelApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -115,7 +140,13 @@ export const parcelApi = baseApi.injectEndpoints({
       }),
       providesTags: ['PARCEL'],
     }),
- 
+    
+      trackParcel: builder.query<TrackParcelResponse, string>({
+      query: (trackingId) => ({
+        url: `/parcel/track/${trackingId}`,
+        method: 'GET',
+      }),
+ }),
     
   }),
 });
@@ -130,5 +161,5 @@ export const {
   useDeleteParcelMutation,
   useChangeParcelStatusMutation,
   useFilterByStatusQuery,
-  
+  useTrackParcelQuery
 } = parcelApi;

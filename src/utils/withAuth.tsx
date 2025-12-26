@@ -23,7 +23,7 @@ export const withAuth = (Component: ComponentType, requiredRole?: TRole) => {
     }
 
     if (requiredRole && !isLoading && requiredRole !== data?.data?.role) {
-      return <Navigate to="/unauthorized" />;
+      return <Navigate to="/" />;
     }
 
     return <Component />;

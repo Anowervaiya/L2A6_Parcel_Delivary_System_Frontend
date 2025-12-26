@@ -6,10 +6,9 @@ import HowItWorksSection from "@/components/sections/how-it-works-section";
 import MobileAppSection from "@/components/sections/mobile-app-section";
 import PartnersSection from "@/components/sections/partners-section";
 import PricingSection from "@/components/sections/pricing-section";
-import ServicesSection from "@/components/sections/services-section";
 import StatsSection from "@/components/sections/stats-section";
-import TestimonialsSection from "@/components/sections/testimonials-section";
 import TrackingSection from "@/components/sections/tracking-section";
+import ServicesSection from "@/components/sections/services-section";
 
 
 export default function Home() {
@@ -17,13 +16,12 @@ export default function Home() {
     <div>
         <HeroSection />
       <TrackingSection />
-      <ServicesSection />
+        <ServicesSection/>
       <HowItWorksSection />
-      <StatsSection />
       <PricingSection />
+      <StatsSection />
       <CoverageSection />
       <MobileAppSection />
-      <TestimonialsSection />
       <PartnersSection />
       <FAQSection />
       <CTASection />

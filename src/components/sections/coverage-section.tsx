@@ -1,66 +1,67 @@
-"use client"
+
 
 import { Card } from "@/components/ui/card"
-import { ChevronDown } from "lucide-react"
+import {  MapPin } from "lucide-react"
 import { useState } from "react"
+const coverageAreas = [
+  {
+    region: "North Region",
+    cities: "Delhi, Chandigarh, Himachal Pradesh, Punjab, Haryana, Jammu & Kashmir",
+ 
+  },
+  {
+    region: "South Region",
+    cities: "Karnataka, Tamil Nadu, Telangana, Andhra Pradesh, Kerala",
+  
+  },
+  {
+    region: "East Region",
+    cities: "West Bengal, Bihar, Jharkhand, Odisha, Assam",
 
-const zones = [
-  {
-    zone: "Dhaka & Suburbs",
-    cities: ["Dhaka", "Gazipur", "Narayanganj", "Tangail", "Shariatpur"],
   },
   {
-    zone: "Chittagong Region",
-    cities: ["Chittagong", "Cox's Bazar", "Rangamati", "Khagrachhari"],
-  },
-  {
-    zone: "Northern Region",
-    cities: ["Rajshahi", "Khulna", "Barisal", "Sylhet", "Mymensingh"],
-  },
-  {
-    zone: "Eastern Region",
-    cities: ["Comilla", "Noakhali", "Feni", "Chandpur"],
+    region: "West Region",
+    cities: "Maharashtra, Gujarat, Rajasthan, Goa",
+   
   },
 ]
 
 export default function CoverageSection() {
-  const [expandedZone, setExpandedZone] = useState<number | null>(null)
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 ">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Coverage Area</h2>
           <p className="text-lg text-gray-600">We deliver across all 64 districts of Bangladesh</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {zones.map((item, idx) => (
-            <Card key={idx} className="overflow-hidden">
-              <button
-                onClick={() => setExpandedZone(expandedZone === idx ? null : idx)}
-                className="w-full p-6 flex items-center justify-between hover:bg-gray-100 transition-colors"
-              >
-                <h3 className="text-lg font-bold text-gray-900">{item.zone}</h3>
-                <ChevronDown
-                  className={`w-5 h-5 text-gray-600 transition-transform ${expandedZone === idx ? "rotate-180" : ""}`}
-                />
-              </button>
+        <section className="px-6 ">
+          <div className="">
+           
 
-              {expandedZone === idx && (
-                <div className="px-6 pb-6 pt-0 border-t border-gray-200">
-                  <div className="grid grid-cols-2 gap-3">
-                    {item.cities.map((city, cidx) => (
-                      <div key={cidx} className="text-gray-600 text-sm">
-                        ✓ {city}
-                      </div>
-                    ))}
+            <div className="grid md:grid-cols-2 gap-8">
+              {coverageAreas.map((area, i) => (
+                <Card
+                  key={i}
+                  className={`p-8  border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div
+                      className={`flex-shrink-0 w-16 h-16 rounded-2xl bg-blue-500 text-white flex items-center justify-center`}
+                    >
+                      <MapPin className="w-8 h-8" />
+                    </div>
+                    <div className="flex-grow">
+                      <h3 className="text-2xl font-bold mb-3 text-gray-900">{area.region}</h3>
+                      <p className="text-gray-700 text-lg leading-relaxed">{area.cities}</p>
+                    </div>
                   </div>
-                </div>
-              )}
-            </Card>
-          ))}
-        </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   )
